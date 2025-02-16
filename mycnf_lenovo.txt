@@ -1,0 +1,53 @@
+[mysqld]
+# innodb_force_recovery = 3
+character-set-server = utf8mb4
+local_infile = 1
+server-id=1
+log_bin=mysql-bin
+binlog_format=ROW
+
+[client]
+default-character-set = utf8mb4
+loose-local-infile=1
+
+[server]
+# Timeout settings
+connect_timeout=3600
+net_read_timeout=3600
+net_write_timeout=3600
+
+# Performance-related settings
+performance_schema = ON
+skip-name-resolve
+
+# InnoDB settings
+innodb_buffer_pool_size = 48G  # Using 70-80% of memory
+innodb_log_file_size = 1G      # Adjusting transaction log size to 1G
+# innodb_flush_method = O_DIRECT is default and recommended for SSD
+
+# Connection and thread settings
+max_connections = 400          # Increasing maximum connections to 400
+thread_handling = pool-of-threads # Setting thread handling model
+thread_cache_size = 24         # Setting thread cache size to 24
+
+# I/O settings
+innodb_io_capacity = 2000      # I/O capacity for SSD
+innodb_read_io_threads = 12    # Number of read I/O threads
+innodb_write_io_threads = 12   # Number of write I/O threads
+
+# Cache size settings
+key_buffer_size = 256M
+read_buffer_size = 128M
+sort_buffer_size = 128M
+read_rnd_buffer_size = 256M
+wait_timeout = 86400
+
+# Slow query log settings
+slow_query_log = ON
+long_query_time = 1
+log_output = TABLE
+
+[client-server]
+
+!includedir /etc/my.cnf.d
+
